@@ -49,7 +49,7 @@ App::App()
 
   {
     // TODO: Initialize any additional resources you require here!
-    etna::create_program("shadertoy1", {LOCAL_SHADERTOY_SHADERS_ROOT "toy.comp.spv"});
+    etna::create_program("shadertoy1", {LOCAL_SHADERTOY1_SHADERS_ROOT "toy.comp.spv"});
 
     pipeline = etna::get_context().getPipelineManager().createComputePipeline("shadertoy1", {});
 
