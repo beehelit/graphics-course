@@ -5,9 +5,6 @@
 layout(binding = 0) uniform sampler2D iChannel0;
 layout(binding = 1) uniform sampler2D iChannel1;
 
-layout(location = 0) out vec4 out_fragColor;
-
-layout(push_constant) uniform params_t
 layout(binding = 2) uniform pt
  {
     uvec2 resolution;
