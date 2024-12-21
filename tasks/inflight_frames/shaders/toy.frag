@@ -7,7 +7,6 @@ layout(binding = 1) uniform sampler2D iChannel1;
 
 layout(binding = 2) uniform pt
  {
-    uvec2 resolution;
     uvec2 iResolution;
     ivec2 iMouse;
  } params;
@@ -267,7 +266,10 @@ void main()
     iResolution = params.iResolution;
     iMouse      = ivec3(params.iMouse, 0);
 
-        // Normalized pixel coordinates (from 0 to 1)
+    vec4 fragColor;
+    vec2 fragCoord = gl_FragCoord.xy;
+     
+    // Normalized pixel coordinates (from 0 to 1)
     bool hit;
 	vec3 mouse = vec3(iMouse.xy/vec2(iResolution.xy) - 0.5,iMouse.z-.5);
     mat3 m     = rotateX ( 6.0*mouse.y ) * rotateY ( 6.0*mouse.x);
