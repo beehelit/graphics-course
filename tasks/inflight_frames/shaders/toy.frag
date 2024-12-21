@@ -8,17 +8,21 @@ layout(binding = 1) uniform sampler2D iChannel1;
 layout(location = 0) out vec4 out_fragColor;
 
 layout(push_constant) uniform params_t
-{
-  uvec2 resolution;
-} params;
+layout(binding = 2) uniform pt
+ {
+    uvec2 resolution;
+    uvec2 iResolution;
+    ivec2 iMouse;
+ } params;
 
+layout(location = 0) out vec4 out_fragColor;
 
 const float iTime = 10.0f;
 
 const float PI = 3.14159265359;
 
-const vec2 iResolution = vec2(1280, 720);
-const ivec3 iMouse = ivec3(0, 1, 0);
+uvec2 iResolution = uvec2(1280, 720);
+ivec3 iMouse = ivec3(0, 1, 0);
 
 const vec3  eye      = vec3 ( 4, 0, 2 );
 const vec3  light    = vec3  ( 15.0, -1.0, 0.0 );
@@ -263,12 +267,12 @@ vec4 boxmap( in sampler2D s, in vec3 p, in vec3 n, in float k )
 void main()
 {
 
-    vec4 fragColor;
-    vec2 fragCoord = gl_FragCoord.xy;
+    iResolution = params.iResolution;
+    iMouse      = ivec3(params.iMouse, 0);
 
         // Normalized pixel coordinates (from 0 to 1)
     bool hit;
-	vec3 mouse = vec3(iMouse.xy/iResolution.xy - 0.5,iMouse.z-.5);
+	vec3 mouse = vec3(iMouse.xy/vec2(iResolution.xy) - 0.5,iMouse.z-.5);
     mat3 m     = rotateX ( 6.0*mouse.y ) * rotateY ( 6.0*mouse.x);
     vec2 scale = 9.0 * iResolution.xy / max ( iResolution.x, iResolution.y ) ;
     vec2 uv    = scale * ( fragCoord/iResolution.xy - vec2 ( 0.5 ) );

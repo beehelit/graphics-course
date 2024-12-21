@@ -7,6 +7,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #include <etna/BlockingTransferHelper.hpp>
+#include <etna/Profiling.hpp>
 #include <iostream>
 #include <ctime>
 
@@ -56,10 +57,10 @@ App::App()
   oneShotManager = etna::get_context().createOneShotCmdMgr();
 
   {
-    etna::create_program("shadertoy2", {LOCAL_SHADERTOY2_SHADERS_ROOT "toy.vert.spv",
-                                        LOCAL_SHADERTOY2_SHADERS_ROOT "toy.frag.spv" });
-    etna::create_program("skinTexture", {LOCAL_SHADERTOY2_SHADERS_ROOT "toy.vert.spv",
-                                        LOCAL_SHADERTOY2_SHADERS_ROOT "texture.frag.spv" });
+    etna::create_program("shadertoy2", {INFLIGHT_FRAMES_SHADERS_ROOT "toy.vert.spv",
+                                       INFLIGHT_FRAMES_SHADERS_ROOT "toy.frag.spv" });
+    etna::create_program("skinTexture", {INFLIGHT_FRAMES_SHADERS_ROOT "toy.vert.spv",
+                                        INFLIGHT_FRAMES_SHADERS_ROOT "texture.frag.spv" });
 
     
     fragVertPipeline = etna::get_context().getPipelineManager().createGraphicsPipeline("shadertoy2",
@@ -134,7 +135,7 @@ void App::drawFrame()
 
   if (!initializedFileTexture) {
     int x, y, n;
-    unsigned char *picData = stbi_load(TEXTURES_ROOT "photo_2024-12-02_16-41-15.jpg", &x, &y, &n, 4);
+    unsigned char *picData = stbi_load(GRAPHICS_COURSE_RESOURCES_ROOT "/textures/photo_2024-12-02_16-41-15.jpg", &x, &y, &n, 4);
     if (picData == NULL) {
       std::cerr << "photo_2024-12-02_16-41-15.jpg not found" << std::endl;
       std::terminate();
